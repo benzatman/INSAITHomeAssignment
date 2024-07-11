@@ -68,6 +68,10 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="Dockerfile" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="docker-compose.yml" />
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
     <option name="LAST_COMMIT_MESSAGE" value="first commit" />
