@@ -1,4 +1,3 @@
-# app/main.py
 from flask import Flask, request, jsonify
 import openai
 import os
@@ -10,6 +9,8 @@ load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 
@@ -24,15 +25,17 @@ def ask():
     data = request.get_json()
     question = data.get('question')
     if not question:
-        return jsonify({'error': 'Question is required'}), 400
+        return jsonify({'error': 'No question found'}), 400
 
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=question,
-        max_tokens=150
+    response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question}
+        ]
     )
 
-    answer = response.choices[0].text.strip()
+    answer = response.choices[0].message['content'].strip()
 
     qna = QnA(question=question, answer=answer)
     db.session.add(qna)

@@ -1,5 +1,5 @@
 import pytest
-from app.main import app, db
+from flask_app.app import app, db
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def client():
 
 
 def test_ask_endpoint(client):
-    response = client.post('/ask', json={'question': 'What is the capital of France?'})
+    response = client.post('/ask', json={'question': 'Who was the 8th Israeli Prime minister?'})
     assert response.status_code == 200
     data = response.get_json()
     assert 'answer' in data
